@@ -5,6 +5,50 @@ module is closely modeled after the Ansible playbook language.
 This module iterates over matching rules defined in YAML format, extracts data from structured ASCII text based on those rules,
 and returns Ansible facts in a JSON data structure that can be added to the inventory host facts and/or consumed by Ansible tasks and templates.
 
+1. Define the data you want to extract
+In this example we will copy a data definition from the Network Engine test suite.
+`mkdir my-parsers`
+`cp ~/.ansible/roles/ansible-network.network-engine/tests/text_parser/parsers/ios/show_version.yaml my-parsers/ios_show_version.yaml`
+The `show_version.yaml` schema retrieves information from the `show version` command, such as uptime and free memory, on IOS, and records it in a variable called `system_facts`.
+1. Create a playbook to extract the data you've defined
+`mkdir ~/my-playbooks`
+`cd ~/my-playbooks`
+The example playbook below runs the `show versions` command, imports the Network Engine role, extracts the data you defined from the text output of the command, and views the results.
+(The last step is for demonstration purposes only.) Make sure the `hosts` definition in the playbook matches a host group in your inventory - in this example, the playbook expects a group called `ios`.
+```yaml
+
+---
+
+# ~/my-playbooks/gather-version-info.yml
+
+- hosts: ios
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+  - name: Collect interface information from device
+    ios_command:
+      commands: "show versions"
+    register: ios_versions_output
+
+  - name: import the network-engine role
+    import_role:
+      name: ansible-network.network-engine
+
+  - name: Generate interface facts as JSON
+    text_parser:
+      file: "my-parsers/ios_show_versions.yaml"
+      content: ios_versions_output['stdout'][0]
+
+  - name: Display version facts in JSON
+    debug:
+      var: system_facts 
+```
+
+1. Run the playbook with `ansible-playbook -i /path/to/your/inventory -u my_user -k my-plabyooks/gather-version-info.yml
+1. Consume the JSON facts about your device(s) in templates and tasks.
+
+
 ## Playbook
 
 ```yaml
