@@ -4,7 +4,7 @@ What is an Ansible Role?
 ----------------------------------
 An Ansible Role is a collection of related tasks, methods, plugins, and modules in a standard format. You can use Roles in tasks or playbooks.
 
-What is the Network Engine Role?
+What does the Network Engine Role do?
 ----------------------------------
 The Network Engine Role provides the fundamental building blocks for a data-model-driven approach to automated network management. Network Engine
  - extracts data about your network devices
