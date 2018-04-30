@@ -1,9 +1,9 @@
-# text_paser
+# text_parser
 
-The module [text_parser](https://github.com/ansible-network/network-engine/blob/devel/library/text_parser.py)
-provides rule based text parser that is closely modeled after the Ansible playbook language.
-This parser will iterate of the rules and parse the output of structured ASCII text into a
-JSON data structure that can be added to the inventory host facts.
+The [text_parser](https://github.com/ansible-network/network-engine/blob/devel/library/text_parser.py)
+module is closely modeled after the Ansible playbook language.
+This module iterates over matching rules defined in YAML format, extracts data from structured ASCII text based on those rules,
+and returns Ansible facts in a JSON data structure that can be added to the inventory host facts and/or consumed by Ansible tasks and templates.
 
 ## Playbook
 

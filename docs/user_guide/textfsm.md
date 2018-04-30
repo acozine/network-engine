@@ -1,8 +1,9 @@
 # textfsm
 
-The module [textfsm](https://github.com/ansible-network/network-engine/blob/devel/library/textfsm.py)
-provides [textfsm](https://github.com/google/textfsm/wiki/TextFSM) rule based templates to parse data
-from text and returns JSON facts as `ansible_facts`. The document describes how to use textfsm module.
+The [textfsm](https://github.com/ansible-network/network-engine/blob/devel/library/textfsm.py)
+module is based on [Google TextFSM](https://github.com/google/textfsm/wiki/TextFSM) definitions. 
+This module iterates over matching rules defined in TextFSM format, extracts data from structured ASCII text based on those rules,
+and returns Ansible facts in a JSON data structure that can be added to inventory host facts and/or consumed by Ansible tasks and templates.
 
 ## Playbook
 
