@@ -3,9 +3,9 @@
 [![network-engine Ansible Galaxy Role](https://img.shields.io/ansible/role/25206.svg)](https://galaxy.ansible.com/ansible-network/network-engine/)
 
 This role provides the foundation for building network roles by providing
-modules and plugins that are common to all Ansible Network roles.  All of
-the artifacts in this role can be used independent of the platform that is
-being managed.
+modules and plugins that are common to all Ansible Network roles. The role
+is platform-agnostic - all of the artifacts in this role can be used on any
+Ansible-managed network platform.
 
 To use this role, install it from [Galaxy](https://galaxy.ansible.com/ansible-network/network-engine/). To find other roles maintained by the Ansible Network team, see our [Galaxy Profile](https://galaxy.ansible.com/ansible-network/).
 
