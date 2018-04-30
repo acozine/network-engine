@@ -12,48 +12,10 @@ Both modules iterate over the data model you define in your input, parse the out
 To use the Network Engine Role:
 ----------------------------------------
 1. Install the role
-`ansible-galaxy install ansible-network.network-engine` will copy the role to `~/.ansible/roles/`.
-1. Define the data elements you want to extract.
-For this example we will copy a file from the test suite for the role:
-`mkdir ~/my-playbooks`
-`cd ~/my-playbooks`
-`mkdir my-parsers`
-`cp ~/.ansible/roles/ansible-network.network-engine/tests/text_parser/parsers/ios/show_version.yaml my-parsers/ios_show_version.yaml`
-This schema retrieves information from the `show version` command, such as uptime and free memory, on IOS, and records it in a variable called `system_facts`.
-1. Create a playbook that runs the command, imports the Network Engine role, extracts the data you defined from the text output of the command, and views the results.
-(The last step is for demonstration purposes only.) Make sure the `hosts` definition in the playbook matches a host group in your inventory - in this example, the playbook expects a group called `ios`.
-```yaml
-
----
-
-# ~/my-playbooks/gather-version-info.yml
-
-- hosts: ios
-  connection: network_cli
-  gather_facts: no
-
-  tasks:
-  - name: Collect interface information from device
-    ios_command:
-      commands: "show versions"
-    register: ios_versions_output
-
-  - name: import the network-engine role
-    import_role:
-      name: ansible-network.network-engine
-
-  - name: Generate interface facts as JSON
-    text_parser:
-      file: "my-parsers/ios_show_versions.yaml"
-      content: ios_versions_output['stdout'][0]
-
-  - name: Display version facts in JSON
-    debug:
-      var: system_facts 
-```
-
-1. Run the playbook with `ansible-playbook -i /path/to/your/inventory -u my_user -k my-plabyooks/gather-version-info.yml
-1. Consume the JSON facts about your device(s) in templates and tasks.
+`ansible-galaxy install ansible-network.network-engine` will copy the Network Engine role to `~/.ansible/roles/`.
+1. Select the parser you prefer
+For YAML formatting, use `text_parser`; for TextFSM formatting, use `textfsm`. The parser docs include
+examples of how to define your data and create your tasks.
 
 
 Additional Resources
