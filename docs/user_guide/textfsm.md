@@ -9,17 +9,6 @@ from text and returns JSON facts as `ansible_facts`. The document describes how 
 ```yaml
 
 ---
-# The following task runs on Ansible controller localhost.
-
-- hosts: localhost
-
-  tasks:
-  - name: Generate interface facts as JSON
-    textfsm:
-      file: "parsers/ios/show_interfaces"
-      content: "{{ lookup('file', 'output/ios/show_interfaces.txt') }}"
-      name: interface_facts
-
 
 # The following task runs against network device
 

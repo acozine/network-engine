@@ -10,21 +10,6 @@ JSON data structure that can be added to the inventory host facts.
 ```yaml
 
 ---
-# The following task runs on Ansible controller localhost.
-
-- hosts: localhost
-
-  tasks:
-  - name: Generate interface facts as JSON
-    text_parser:
-      file: "parsers/ios/show_interfaces.yaml"
-      content: "{{ lookup('file', 'output/ios/show_interfaces.txt') }}"
-
-  - name: Generate system facts as JSON
-    text_parser:
-      file: "parsers/ios/show_version.yaml"
-      content: "{{ lookup('file', 'output/ios/show_version.txt') }}"
-
 
 # The following task runs against network device
 
