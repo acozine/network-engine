@@ -7,18 +7,22 @@ modules and plugins that are common to all Ansible Network roles. The role
 is platform-agnostic - all of the artifacts in this role can be used on any
 Ansible-managed network platform.
 
-To use this role, install it from [Galaxy](https://galaxy.ansible.com/ansible-network/network-engine/). To find other roles maintained by the Ansible Network team, see our [Galaxy Profile](https://galaxy.ansible.com/ansible-network/).
+To use this role, follow the [User Guide](docs/user_guide/main.md)
+To find other roles maintained by the Ansible Network team, see our [Galaxy Profile](https://galaxy.ansible.com/ansible-network/). 
+To see the version of this role you currently have installed, type `ansible-galaxy list` and find `network-engine` in the results. 
+To upgrade, 
+
 
 Any open bugs and/or feature requests are tracked in [GitHub issues](https://github.com/ansible-network/network-engine/issues).
 
-Interested in contributing to this role? Check out [CONTRIBUTING](https://github.com/ansible-network/network-engine/blob/devel/CONTRIBUTING.md) before submitting a pull request.
+Interested in contributing to this role? Check out [CONTRIBUTING](CONTRIBUTING.md) before submitting a pull request.
 
 ## Documentation
 
 * User guide:
-    - [How to use](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/main.md)
-    - [Parser Directives](https://github.com/ansible-network/network-engine/blob/devel/docs/directives/parser_directives.md)
-* Development guide: [How to test](https://github.com/ansible-network/network-engine/blob/devel/docs/tests/test_guide.md)
+    - [How to use](docs/user_guide/main.md)
+    - [Parser Directives](docs/directives/parser_directives.md)
+* Development guide: [How to test](docs/tests/test_guide.md)
 
 For module documentation see the [modules](#modules) section below.
 
@@ -43,9 +47,9 @@ None
 
 The following is a list of modules that are provided by this role, which include documentation & examples:
 
-* `cli` [source](https://github.com/ansible-network/network-engine/blob/devel/action_plugins/cli.py)
-* `text_parser` [source](https://github.com/ansible-network/network-engine/blob/devel/library/text_parser.py)
-* `textfsm` [source](https://github.com/ansible-network/network-engine/blob/devel/library/textfsm.py)
+* `cli` [source](action_plugins/cli.py)
+* `text_parser` [source](library/text_parser.py)
+* `textfsm` [source](library/textfsm.py)
 
 ## Plugins
 
