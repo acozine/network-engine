@@ -16,7 +16,12 @@ To use the Network Engine Role:
 1. Select the parser you prefer
 For YAML formatting, use `text_parser`; for TextFSM formatting, use `textfsm`. The parser docs include
 examples of how to define your data and create your tasks.
-
+1. Define the data you want to extract (or use a pre-existing data definition)
+See the Files sections of text_parser and textfsm for examples.
+1. Create a playbook to extract the data you've defined
+See the Playbook sections of text_parser and textfsm for examples.
+1. Run the playbook with `ansible-playbook -i /path/to/your/inventory -u my_user -k /path/to/your/playbook`
+1. Consume the JSON-formatted Ansible facts about your device(s) in inventory, templates, and tasks.
 
 Additional Resources
 -------------------------------------

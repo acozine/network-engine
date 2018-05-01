@@ -4,82 +4,22 @@ The [text_parser](https://github.com/ansible-network/network-engine/blob/devel/l
 module is closely modeled after the Ansible playbook language.
 This module iterates over matching rules defined in YAML format, extracts data from structured ASCII text based on those rules,
 and returns Ansible facts in a JSON data structure that can be added to the inventory host facts and/or consumed by Ansible tasks and templates.
+The `text_parser` module accepts two parameters: `content` and `file`.
 
-1. Define the data you want to extract
-In this example we will copy a data definition from the Network Engine test suite.
-`mkdir my-parsers`
-`cp ~/.ansible/roles/ansible-network.network-engine/tests/text_parser/parsers/ios/show_version.yaml my-parsers/ios_show_version.yaml`
-The `show_version.yaml` schema retrieves information from the `show version` command, such as uptime and free memory, on IOS, and records it in a variable called `system_facts`.
-1. Create a playbook to extract the data you've defined
-`mkdir ~/my-playbooks`
-`cd ~/my-playbooks`
-The example playbook below runs the `show versions` command, imports the Network Engine role, extracts the data you defined from the text output of the command, and views the results.
-(The last step is for demonstration purposes only.) Make sure the `hosts` definition in the playbook matches a host group in your inventory - in this example, the playbook expects a group called `ios`.
-```yaml
+## Content
 
----
-
-# ~/my-playbooks/gather-version-info.yml
-
-- hosts: ios
-  connection: network_cli
-  gather_facts: no
-
-  tasks:
-  - name: Collect interface information from device
-    ios_command:
-      commands: "show versions"
-    register: ios_versions_output
-
-  - name: import the network-engine role
-    import_role:
-      name: ansible-network.network-engine
-
-  - name: Generate interface facts as JSON
-    text_parser:
-      file: "my-parsers/ios_show_versions.yaml"
-      content: ios_versions_output['stdout'][0]
-
-  - name: Display version facts in JSON
-    debug:
-      var: system_facts 
-```
-
-1. Run the playbook with `ansible-playbook -i /path/to/your/inventory -u my_user -k my-plabyooks/gather-version-info.yml
-1. Consume the JSON facts about your device(s) in templates and tasks.
+The `content` parameter for `text_parser` should point to the ASCII text output of commands run on network devices. The text output can be in a variable or in a file.
 
 
-## Playbook
+## File
 
-```yaml
+The `file` parameter for `text_parser` must point to a data definition file that contains a regular expression rule for each data field you want to extract from your network devices. 
 
----
-
-# The following task runs against network device
-
-- hosts: ios
-
-  tasks:
-  - name: Collect interface information from device
-    ios_command:
-      commands: "show interfaces"
-    register: ios_interface_output
-
-  - name: Generate interface facts as JSON
-    text_parser:
-      file: "parsers/ios/show_interfaces.yaml"
-      content: ios_interface_output['stdout'][0]
-
-```
-
-## Parser
-
-The `file` parameter for `text_parser` contains rules to parse text.
-The rules in parser file uses directives written closely to Ansible language.
+Data definition files for the `text_parser` module in the Network Engine role use YAML notation and a syntax similar to Ansible playbooks.
 
 Directives documentation is available in [parser_directives.md](https://github.com/ansible-network/network-engine/blob/devel/docs/directives/parser_directives.md).
 
-The following describes how a parser file looks like:
+Here are two sample data definition files:
 
 `parser/ios/show_interfaces.yaml`
 ```yaml
@@ -202,7 +142,76 @@ The following describes how a parser file looks like:
 
 ```
 
-## Content
+## Playbook
 
-The `content` paramter for `text_parser` should have the ASCII text output of commands run on
-network devices.
+To extract the data defined in your file, create a playbook that includes the Network Engine role and references the `content` and `file` parameters of the `text_parser` module. 
+
+The example playbook below runs the `show versions` command, imports the Network Engine role, extracts data defined from the text output of the command by matching it against the rules defined
+in your data definition file, and views the results. (The last step is for demonstration purposes only.) 
+
+Make sure the `hosts` definition in the playbook matches a host group in your inventory - in these examples, the playbook expects a group called `ios`.
+
+The first example parses the output of the `show interfaces` command on IOS and creates facts from that output:
+
+```yaml
+
+---
+
+# ~/my-playbooks/gather-interface-info.yml
+
+- hosts: ios
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+  - name: Collect interface information from device
+    ios_command:
+      commands: "show interfaces"
+    register: ios_interface_output
+
+  - name: import the network-engine role
+    import_role:
+      name: ansible-network.network-engine
+
+  - name: Generate interface facts as JSON
+    text_parser:
+      file: "parsers/ios/show_interfaces.yaml"
+      content: ios_interface_output['stdout'][0]
+
+  - name: Display interface facts in JSON
+    debug:
+      var: interface_facts
+```
+
+The second example parses the output of the `show interfaces` command on IOS and creates facts from that output:
+
+```yaml
+
+---
+
+# ~/my-playbooks/gather-version-info.yml
+
+- hosts: ios
+  connection: network_cli
+  gather_facts: no
+
+  tasks:
+  - name: Collect version information from device
+    ios_command:
+      commands: "show version"
+    register: ios_version_output
+
+  - name: import the network-engine role
+    import_role:
+      name: ansible-network.network-engine
+
+  - name: Generate version facts as JSON
+    text_parser:
+      file: "parser/ios/show_version.yaml"
+      content: ios_version_output['stdout'][0]
+
+  - name: Display version facts in JSON
+    debug:
+      var: system_facts
+```
+
