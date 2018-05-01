@@ -142,11 +142,11 @@ Here are two sample data definition files:
 
 ```
 
-## Playbook
+## Sample Playbooks
 
 To extract the data defined in your file, create a playbook that includes the Network Engine role and references the `content` and `file` parameters of the `text_parser` module. 
 
-The example playbook below runs the `show versions` command, imports the Network Engine role, extracts data defined from the text output of the command by matching it against the rules defined
+Each example playbook below runs a show command, imports the Network Engine role, extracts data defined from the text output of the command by matching it against the rules defined
 in your data definition file, and views the results. (The last step is for demonstration purposes only.) 
 
 Make sure the `hosts` definition in the playbook matches a host group in your inventory - in these examples, the playbook expects a group called `ios`.
@@ -183,7 +183,7 @@ The first example parses the output of the `show interfaces` command on IOS and 
       var: interface_facts
 ```
 
-The second example parses the output of the `show interfaces` command on IOS and creates facts from that output:
+The second example parses the output of the `show version` command on IOS and creates facts from that output:
 
 ```yaml
 
@@ -214,4 +214,3 @@ The second example parses the output of the `show interfaces` command on IOS and
     debug:
       var: system_facts
 ```
-
