@@ -8,7 +8,7 @@ The `text_parser` module accepts two parameters: `content` and `file`.
 
 ## Content
 
-The `content` parameter for `text_parser` should point to the ASCII text output of commands run on network devices. The text output can be in a variable or in a file.
+The `content` parameter for `text_parser` must point to the ASCII text output of commands run on network devices. The text output can be in a variable or in a file.
 
 
 ## File
