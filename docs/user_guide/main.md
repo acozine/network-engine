@@ -1,25 +1,25 @@
 Using the Network Engine Role 
 ----------------------------------
 
-The Network Engine Role can be used directly or as a dependency of other Roles. The Network Engine Role extracts data about your network devices as Ansible facts in a JSON data structure, ready to be added to your inventory host facts and/or consumed by Ansible tasks and templates. You define the data elements you want to extract from each network OS command as input for the role. You can use either YAML or Google TextFSM to structure this input. The regex in the `pattern_match` may be different on each platform, but by defining the same variable names for the output (register) on all platforms, you can normalize similar data across platforms. That's how the Network Engine Role supports truly platform-agnostic network automation. 
+The Network Engine Role can be used directly or as a dependency of other Roles. The Network Engine Role extracts data about your network devices as Ansible facts in a JSON data structure, ready to be added to your inventory host facts and/or consumed by Ansible tasks and templates. You define the data elements you want to extract from each network OS command in parser templates, using either YAML or Google TextFSM syntax. The matching rules may be different on each network platform, but by defining the same variable names for the output on all platforms, you can normalize similar data across platforms. That's how the Network Engine Role supports truly platform-agnostic network automation. 
 
-The initial release of the Network Engine role includes modules for defining and using the following parsing engines:
-* [text_parser](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/text_parser.md) accepts YAML-formatted input, uses an internally maintained, loosely defined parsing language based on Ansible playbook directives
-* [textfsm](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/textfsm.md) accepts Google TextFSM-formatted input, uses Google TextFSM parsing language
+The initial release of the Network Engine role includes two parser modules:
+* [yaml_parser](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/text_parser.md) accepts YAML input, uses an internally maintained, loosely defined parsing language based on Ansible playbook directives
+* [textfsm_parser](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/textfsm.md) accepts Google TextFSM input, uses Google TextFSM parsing language
 
-Both modules iterate over the data model you define in your input, parse the output of structured ASCII text, and then convert it into Ansible facts in a JSON data structure.
+Both modules iterate over the data definitions in your parser templates, parse command output from your network devices (structured ASCII text) to find matches, and then convert the matches into Ansible facts in a JSON data structure.
 
 To use the Network Engine Role:
 ----------------------------------------
 1. Install the role
 `ansible-galaxy install ansible-network.network-engine` will copy the Network Engine role to `~/.ansible/roles/`.
 1. Select the parser you prefer
-For YAML formatting, use `text_parser`; for TextFSM formatting, use `textfsm`. The parser docs include
+For YAML formatting, use `yaml_parser`; for TextFSM formatting, use `textfsm_parser`. The parser docs include
 examples of how to define your data and create your tasks.
-1. Define the data you want to extract (or use a pre-existing data definition)
-See the Files sections of text_parser and textfsm for examples.
+1. Define the data you want to extract (or use a pre-existing parser template)
+See the parser_template sections of the yaml_parser and textfsm_parser docs for examples.
 1. Create a playbook to extract the data you've defined
-See the Playbook sections of text_parser and textfsm for examples.
+See the Playbook sections of the yaml_parser and textfsm_parser docs for examples.
 1. Run the playbook with `ansible-playbook -i /path/to/your/inventory -u my_user -k /path/to/your/playbook`
 1. Consume the JSON-formatted Ansible facts about your device(s) in inventory, templates, and tasks.
 
