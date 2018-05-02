@@ -17,7 +17,6 @@ Points to either a variable or a file containing the ASCII text output of a comm
 
 Points to a parser template, a file that contains a regular expression rule for each data field you want to extract from your network devices. Use this parameter if your playbook uses a single parser template.
 
-
 ### dir
 
 Points to a directory containing parser templates. Use this parameter if your playbook uses multiple parser templates.
@@ -151,7 +150,7 @@ Here are two sample parser templates:
 
 ## Sample Playbooks
 
-To extract the data defined in your file, create a playbook that includes the Network Engine role and references the `content` and `file` parameters of the `text_parser` module. 
+To extract the data defined in your file, create a playbook that includes the Network Engine role and references the `command_output` and `parser_template` parameters of the `text_parser` module. 
 
 Each example playbook below runs a show command, imports the Network Engine role, extracts data defined from the text output of the command by matching it against the rules defined
 in your data definition file, and views the results. (The last step is for demonstration purposes only.) 
@@ -188,8 +187,8 @@ The first example parses the output of the `show interfaces` command on IOS and 
 
   - name: Generate interface facts as JSON
     text_parser:
-      file: "parser_templates/ios/show_interfaces.yaml"
-      content: "{{ ios_interface_output.stdout.0 }}"
+      parser_template: "parser_templates/ios/show_interfaces.yaml"
+      command_output: "{{ ios_interface_output.stdout.0 }}"
 
   - name: Display interface facts in JSON
     debug:
@@ -220,8 +219,8 @@ The second example parses the output of the `show version` command on IOS and cr
 
   - name: Generate version facts as JSON
     text_parser:
-      file: "parser_templates/ios/show_version.yaml"
-      content: "{{ ios_version_output.stdout.0 }}"
+      parser_template: "parser_templates/ios/show_version.yaml"
+      command_output: "{{ ios_version_output.stdout.0 }}"
 
   - name: Display version facts in JSON
     debug:
