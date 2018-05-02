@@ -6,12 +6,14 @@ This module iterates over matching rules defined in YAML format, extracts data f
 and returns Ansible facts in a JSON data structure that can be added to the inventory host facts and/or consumed by Ansible tasks and templates.
 The `text_parser` module accepts two parameters: `content` and `file`.
 
-## Content
+## Parameters
+
+### Content
 
 The `content` parameter for `text_parser` must point to the ASCII text output of commands run on network devices. The text output can be in a variable or in a file.
 
 
-## File
+### File
 
 The `file` parameter for `text_parser` must point to a data definition file that contains a regular expression rule for each data field you want to extract from your network devices. 
 
@@ -161,13 +163,19 @@ The first example parses the output of the `show interfaces` command on IOS and 
 
 - hosts: ios
   connection: network_cli
-  gather_facts: no
 
   tasks:
   - name: Collect interface information from device
     ios_command:
-      commands: "show interfaces"
+      commands:
+        - show interfaces
     register: ios_interface_output
+
+# the command output being parsed is stored in the stdout of ios_version_output
+# you can see a formatted version if you uncomment these three lines:
+#  - name: debug
+#    debug:
+#      var: ios_interface_output['stdout_lines']
 
   - name: import the network-engine role
     import_role:
@@ -176,7 +184,7 @@ The first example parses the output of the `show interfaces` command on IOS and 
   - name: Generate interface facts as JSON
     text_parser:
       file: "parsers/ios/show_interfaces.yaml"
-      content: ios_interface_output['stdout'][0]
+      content: "{{ ios_interface_output.stdout.0 }}"
 
   - name: Display interface facts in JSON
     debug:
@@ -193,12 +201,12 @@ The second example parses the output of the `show version` command on IOS and cr
 
 - hosts: ios
   connection: network_cli
-  gather_facts: no
 
   tasks:
   - name: Collect version information from device
     ios_command:
-      commands: "show version"
+      commands: 
+        - show version
     register: ios_version_output
 
   - name: import the network-engine role
@@ -208,7 +216,7 @@ The second example parses the output of the `show version` command on IOS and cr
   - name: Generate version facts as JSON
     text_parser:
       file: "parser/ios/show_version.yaml"
-      content: ios_version_output['stdout'][0]
+      content: "{{ ios_version_output.stdout.0 }}"
 
   - name: Display version facts in JSON
     debug:
