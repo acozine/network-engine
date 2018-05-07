@@ -1,21 +1,25 @@
-# text_parser
+# command_parser
 
-The [text_parser](https://github.com/ansible-network/network-engine/blob/devel/library/text_parser.py)
+The [command_parser](https://github.com/ansible-network/network-engine/blob/devel/library/command_parser.py)
 module is closely modeled after the Ansible playbook language.
 This module iterates over matching rules defined in YAML format, extracts data from structured ASCII text based on those rules,
 and returns Ansible facts in a JSON data structure that can be added to the inventory host facts and/or consumed by Ansible tasks and templates.
-The `text_parser` module accepts three parameters: `command_output`, `file`, and `dir`. The parameters `parser_template` and `dir` are 
+The `command_parser` module accepts three parameters: `content`, `file`, and `dir`. The parameters `content` and `dir` are 
 mutually exclusive - use one or the other, but not both.
 
 ## Parameters
 
-### command_output
+### content
 
-Points to either a variable or a file containing the ASCII text output of a command executed on network devices.
+The `content` parameter for `command_parser` should point to the ASCII text output of commands run on network devices. The text output can be in a variable or in a file.
 
-### parser_template
 
-Points to a parser template, a file that contains a regular expression rule for each data field you want to extract from your network devices. Use this parameter if your playbook uses a single parser template.
+### file
+
+The `file` parameter for `command_parser` must point to a parser template that contains a rule for each data field you want to extract from your network devices.
+
+Parser templates for the `command_parser` module in the Network Engine role use YAML notation.
+
 
 ### dir
 
@@ -23,9 +27,9 @@ Points to a directory containing parser templates. Use this parameter if your pl
 
 ## Sample Parser Templates
 
-Parser templates for the `text_parser` module in the Network Engine role use YAML syntax.
+Parser templates for the `command_parser` module in the Network Engine role use YAML syntax.
 To write a parser template, follow the [parser_directives documentation](docs/directives/parser_directives.md).
-Here are two sample parser templates:
+Here are two sample YAML parser templates:
 
 `parser_templates/ios/show_interfaces.yaml`
 ```yaml

@@ -1,24 +1,30 @@
-# textfsm
+# textfsm_parser
 
-The [textfsm](https://github.com/ansible-network/network-engine/blob/devel/library/textfsm.py)
+The [textfsm_parser](https://github.com/ansible-network/network-engine/blob/devel/library/textfsm_parser.py)
 module is based on [Google TextFSM](https://github.com/google/textfsm/wiki/TextFSM) definitions. 
 This module iterates over matching rules defined in TextFSM format, extracts data from structured ASCII text based on those rules,
 and returns Ansible facts in a JSON data structure that can be added to inventory host facts and/or consumed by Ansible tasks and templates.
-The `textfsm` module accepts two parameters: `content` and `file`.
+The `textfsm_parser` module accepts three parameters: `content`, `file`, and `src`. The parameters `file` and `src` are 
+mutually exclusive - use one or the other, but not both.
 
 ## Content
 
-The `content` parameter for `textfsm` should point to the ASCII text output of commands run on network devices. The text output can be in a variable or in a file.
+The `content` parameter for `textfsm_parser` should point to the ASCII text output of commands run on network devices. The text output can be in a variable or in a file.
 
 ## File
 
-The `file` parameter for `textfsm` must point to a data definition file that contains a textfsm rule for each data field you want to extract from your network devices. 
+The `file` parameter for `textfsm_parser` must point to a parser template that contains a TextFSM rule for each data field you want to extract from your network devices. 
 
-Data definition files for the `textfsm` module in the Network Engine role use TextFSM notation.
+Parser templates for the `textfsm_parser` module in the Network Engine role use TextFSM notation.
 
-Here is a sample data definition file:
+### src
 
-`parsers/ios/show_interfaces`
+The `src` parameter for `textfsm_parser` loads your parser template from an external source, usually a URL.
+
+
+Here is a sample TextFSM parser template:
+
+`parser_templates/ios/show_interfaces`
 ```
 
 Value Required name (\S+)
@@ -52,9 +58,8 @@ Start
 
   - name: Generate interface facts as JSON
     textfsm:
-      file: "parsers/ios/show_interfaces"
+      file: "parser_templates/ios/show_interfaces"
       content: ios_interface_output['stdout'][0]
       name: interface_facts
 
 ```
-
