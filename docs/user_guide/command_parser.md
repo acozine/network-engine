@@ -154,7 +154,7 @@ Here are two sample YAML parser templates:
 
 ## Sample Playbooks
 
-To extract the data defined in your file, create a playbook that includes the Network Engine role and references the `command_output` and `parser_template` parameters of the `text_parser` module. 
+To extract the data defined in your file, create a playbook that includes the Network Engine role and references the `content` and `file` parameters of the `text_parser` module. 
 
 Each example playbook below runs a show command, imports the Network Engine role, extracts data defined from the text output of the command by matching it against the rules defined
 in your data definition file, and views the results. (The last step is for demonstration purposes only.) 
@@ -190,9 +190,9 @@ The first example parses the output of the `show interfaces` command on IOS and 
       name: ansible-network.network-engine
 
   - name: Generate interface facts as JSON
-    text_parser:
-      parser_template: "parser_templates/ios/show_interfaces.yaml"
-      command_output: "{{ ios_interface_output.stdout.0 }}"
+    command_parser:
+      file: "parser_templates/ios/show_interfaces.yaml"
+      content: "{{ ios_interface_output.stdout.0 }}"
 
   - name: Display interface facts in JSON
     debug:
@@ -222,9 +222,9 @@ The second example parses the output of the `show version` command on IOS and cr
       name: ansible-network.network-engine
 
   - name: Generate version facts as JSON
-    text_parser:
-      parser_template: "parser_templates/ios/show_version.yaml"
-      command_output: "{{ ios_version_output.stdout.0 }}"
+    command_parser:
+      file: "parser_templates/ios/show_version.yaml"
+      content: "{{ ios_version_output.stdout.0 }}"
 
   - name: Display version facts in JSON
     debug:

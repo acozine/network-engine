@@ -57,7 +57,7 @@ Start
     register: ios_interface_output
 
   - name: Generate interface facts as JSON
-    textfsm:
+    textfsm_parser:
       file: "parser_templates/ios/show_interfaces"
       content: ios_interface_output['stdout'][0]
       name: interface_facts

@@ -6,8 +6,8 @@ The Network Engine role is supported as a dependency of other Roles. The Network
 The Network Engine role can also be used directly, though direct usage is not supported with your Red Hat subscription. 
 
 The initial release of the Network Engine role includes two parser modules:
-* [command_parser](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/text_parser.md) accepts YAML input, uses an internally maintained, loosely defined parsing language based on Ansible playbook directives
-* [textfsm_parser](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/textfsm.md) accepts Google TextFSM input, uses Google TextFSM parsing language
+* [command_parser](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/command_parser.md) accepts YAML input, uses an internally maintained, loosely defined parsing language based on Ansible playbook directives
+* [textfsm_parser](https://github.com/ansible-network/network-engine/blob/devel/docs/user_guide/textfsm_parser.md) accepts Google TextFSM input, uses Google TextFSM parsing language
 
 Both modules iterate over the data definitions in your parser templates, parse command output from your network devices (structured ASCII text) to find matches, and then convert the matches into Ansible facts in a JSON data structure.
 
@@ -28,8 +28,8 @@ See the Playbook sections of the command_parser and textfsm_parser docs for exam
 Additional Resources
 -------------------------------------
 https://galaxy.ansible.com/ansible-network/network-engine/#readme
-https://github.com/ansible-network/network-engine/tree/devel/tests/textfsm
-https://github.com/ansible-network/network-engine/tree/devel/tests/text_parser
+https://github.com/ansible-network/network-engine/tree/devel/tests/command_parser
+https://github.com/ansible-network/network-engine/tree/devel/tests/textfsm_parser
 
 Full changelog diff:
 https://github.com/ansible-network/network-engine/blob/devel/CHANGELOG.rst
