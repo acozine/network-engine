@@ -1,6 +1,6 @@
 # Test Guide
 
-The tests in network-engine are role based where the entry point is `tests/test.yml`.
+The tests in the network-engine are role based where the entry point is `tests/test.yml`.
 The tests for `textfsm_parser` and `command_parser` are run against `localhost`.
 
 ## How to run tests locally
@@ -22,7 +22,7 @@ role_name
 │   └── platform_name
 │       ├── show_interfaces.txt
 │       └── show_version.txt
-├── parsers
+├── parser_templates
 │   └── platform_name
 │       ├── show_interfaces.yaml
 │       └── show_version.yaml
@@ -43,7 +43,7 @@ If you add any new Role for test, make sure to include the role in `test.yml`:
 
 ## Add new platforms tests to an existing roles
 
-Create directory with the `platform_name` in `output` and `parsers` directories
+Create directory with the `platform_name` in `output` and `parser_templates` directories
 which will contain output and parser files of the platform.
 
 Add corresponding playbook with the `platform_name` in `tasks/$platform_name.yaml`
